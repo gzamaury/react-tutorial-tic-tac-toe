@@ -1,0 +1,10 @@
+// See https://containers.dev/implementors/json_reference/ for configuration reference
+{
+	"name": "Untitled Node.js project",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	  // fix: fatal: detected dubious ownership in repository (https://www.kenmuse.com/blog/avoiding-dubious-ownership-in-dev-containers/)
+  "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+  "remoteUser": "node"
+}

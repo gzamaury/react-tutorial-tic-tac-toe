@@ -68,16 +68,28 @@ export default function Game() {
     setCurrenMove(nextMove);
   }
 
-  const moves = history.map((squeres, move) => {
+  const moves = history.map((squares, move) => {
     let description;
-    if (move > 0) {
+    let isFirstMove = history.length === 1;
+    let isCurrentMove = move === currenMove; 
+    if (move === 0) {
+      description = isFirstMove ? 
+        'Starting the game' :
+          isCurrentMove ?
+          'You are at the start' :
+          'Go to game start' ;
+    } else if (move < currenMove) {
       description = 'Go to move #' + move;
     } else {
-      description = 'Go to game start'
+      description = 'You are at move #' + move;
     }
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        { isCurrentMove ? (
+          <span>{description}</span>
+        ) : (
+          <button onClick={() => jumpTo(move)}>{description}</button>
+        )}
       </li>
     );
   });

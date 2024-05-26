@@ -55,6 +55,8 @@ function Board({ xIsNext, squares, onPlay }) {
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currenMove, setCurrenMove] = useState(0); 
+  const [reversed, setReversed] = useState(false);
+  
   const xIsNext = currenMove % 2 === 0;
   const currentSquares = history[currenMove];
   
@@ -68,7 +70,7 @@ export default function Game() {
     setCurrenMove(nextMove);
   }
 
-  const moves = history.map((squares, move) => {
+  let moves = history.map((squares, move) => {
     let description;
     let isFirstMove = history.length === 1;
     let isCurrentMove = move === currenMove; 
@@ -94,12 +96,19 @@ export default function Game() {
     );
   });
 
+  moves = reversed ? moves.reverse() : moves ;
+
   return (
     <div className="game">
       <div className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
+        <div className="btnReverse">
+          <button onClick={() => setReversed(!reversed)} disabled={history.length === 1} >
+            { !reversed ? "Show in descending order" : "Show in ascending order" }
+          </button>
+        </div>
         <ol>{moves}</ol>
       </div>
     </div>

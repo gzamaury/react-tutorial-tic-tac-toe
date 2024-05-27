@@ -11,6 +11,11 @@ function Square({ value, onSquareClick, className }) {
 }
 
 function Board({ xIsNext, squares, onPlay, isLastMove }) {
+  const rowColMap = [
+    "(1,1)", "(1,2)", "(1,3)",
+    "(2,1)", "(2,2)", "(2,3)",
+    "(3,1)", "(3,2)", "(3,3)"
+  ];
   const {winner, winnerLine} = calculateWinner(squares);
   
   function handleClick(i) {
@@ -18,7 +23,7 @@ function Board({ xIsNext, squares, onPlay, isLastMove }) {
 
     const nextSquares = squares.slice();
     nextSquares[i] = xIsNext ? "X" : "O";
-    
+    nextSquares[9] = rowColMap[i];
     onPlay(nextSquares);
   }
 
@@ -40,7 +45,7 @@ function Board({ xIsNext, squares, onPlay, isLastMove }) {
 
   const jsxRowsBoard = [];
   const numSquaresByRow = 3;
-  for (let i = 0; i < jsxSquares.length; i += numSquaresByRow) {
+  for (let i = 0; i < 9; i += numSquaresByRow) {
     jsxRowsBoard.push(
       <div className="board-row">
         {jsxSquares.slice(i, i + numSquaresByRow)}
@@ -57,7 +62,7 @@ function Board({ xIsNext, squares, onPlay, isLastMove }) {
 }
 
 export default function Game() {
-  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [history, setHistory] = useState([Array(10).fill(null)]);
   const [currenMove, setCurrenMove] = useState(0); 
   const [reversed, setReversed] = useState(false);
   
@@ -87,10 +92,10 @@ export default function Game() {
           isCurrentMove ?
           'You are at the start' :
           'Go to game start' ;
-    } else if (move < currenMove) {
-      description = 'Go to move #' + move;
+    } else if (move !== currenMove) {
+      description = 'Go to move #' + move + ' > ' + squares[9];
     } else {
-      description = 'You are at move #' + move;
+      description = 'You are at move #' + move + ' > ' + squares[9];
     }
     return (
       <li key={move}>

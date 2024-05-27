@@ -71,6 +71,10 @@ body {
   width: 34px;
 }
 
+.winner {
+  background-color: lightgreen;
+}
+
 .board-row:after {
   clear: both;
   content: '';
@@ -80,6 +84,7 @@ body {
 .status {
   margin-bottom: 10px;
 }
+
 .game {
   display: flex;
   flex-direction: row;
